@@ -95,16 +95,69 @@ function moveToPreviousMonth() {
   year.value = tempYear
   month.value = previousMonth
 }
+
+function moveToNextMonth() {
+  let nextMonth = month.value + 1
+  let tempYear = year.value
+
+  // 12月から1月の場合
+  if (nextMonth === 12) {
+    nextMonth = 0
+    tempYear = tempYear + 1
+  }
+  const firstDayOfNextMonth = moment().year(tempYear).month(nextMonth).date(1)
+
+  //ここから表示する日付を計算
+  let tempDay = firstDayOfNextMonth
+  const wday = firstDayOfNextMonth.day()
+
+  let dayArray = []
+  //1日よりも前の日を入れる
+  for (let i = 0; i < wday; i++) {
+    const beforeDay = tempDay.subtract(wday - i, 'days').format('YYYY-M-D')
+    dayArray.push(beforeDay)
+    tempDay.add(wday - i, 'days').format('YYYY-M-D')
+  }
+
+  let flag = true
+  while (flag === true) {
+    const day = tempDay.format('YYYY-M-D')
+    dayArray.push(day)
+    tempDay.add(1, 'days').format('YYYY-M-D')
+    // 12月を表示する場合、ここは11
+    const tempMonth = tempDay.month()
+    if (tempDay.day() === 0) {
+      if (tempMonth === nextMonth + 1) {
+        flag = false
+        break
+      } else if (nextMonth === 11 && tempMonth === 0) {
+        flag = false
+        break
+      }
+    }
+  }
+
+  year.value = tempYear
+  month.value = nextMonth
+  displayDays.value = dayArray
+}
 </script>
 
 <template>
-  <h3>Here is calendar</h3>
-  <div>
-    <p>Today is {{ `${year}年${month + 1}月` }}.</p>
+  <div class="Month-button-area">
     <button className="Month-button" @click="moveToPreviousMonth()">先月</button>
+    <span>{{ `${year}年${month + 1}月` }}</span>
+    <button className="Month-button" @click="moveToNextMonth()">次月</button>
   </div>
   <div class="calendar-body">
     <WeekHeader />
     <Weeks :displayDays="displayDays" />
   </div>
 </template>
+
+<style scoped>
+.Month-button-area {
+  display: flex;
+  margin-bottom: 20px;
+}
+</style>
