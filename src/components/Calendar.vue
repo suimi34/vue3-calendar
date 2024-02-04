@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import moment from 'moment'
 import WeekHeader from './WeekHeader.vue'
 import Weeks from './Weeks.vue'
@@ -8,14 +8,6 @@ const today = moment()
 const displayDays = ref<string[]>([])
 const year = ref(today.year())
 const month = ref(today.month())
-
-watch(displayDays, (newValue) => {
-  displayDays.value = newValue
-})
-
-watch(month, (newValue) => {
-  month.value = newValue
-})
 
 onMounted(() => {
   const firstDay = today.startOf('month')
