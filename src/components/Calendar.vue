@@ -18,31 +18,11 @@ watch(month, (newValue) => {
 })
 
 onMounted(() => {
-  const dayArray = getDaysBeforeFirstDayOfTheMonth(today.startOf('month'))
+  const firstDay = today.startOf('month')
+  const dayArray = getDaysBeforeFirstDayOfTheMonth(firstDay)
+  const dayArrayOfTheMonth = getDaysOfTheMonth(firstDay, month.value)
 
-  let tempDay = today.startOf('month')
-  let tempMonth = month.value
-  let nextMonth = tempMonth + 1
-  // 12月から1月の場合??
-  if (nextMonth === 12) {
-    nextMonth = 0
-  }
-
-  let flag = true
-  while (flag === true) {
-    const day = tempDay.format('YYYY-M-D')
-    dayArray.push(day)
-    tempDay.add(1, 'days').format('YYYY-M-D')
-    tempMonth = tempDay.month()
-    if (tempDay.day() === 0) {
-      if (tempMonth === nextMonth) {
-        flag = false
-        break
-      }
-    }
-  }
-
-  displayDays.value = dayArray
+  displayDays.value = dayArray.concat(dayArrayOfTheMonth)
 })
 
 // 1日よりも前の日を入れる
@@ -60,7 +40,7 @@ const getDaysBeforeFirstDayOfTheMonth = (baseDay: any) => {
 }
 
 // 月の日付を入れる
-const getDaysOfTheMonth = (baseDay: any, adjacentMonth: number) => {
+const getDaysOfTheMonth = (baseDay: any, month: number) => {
   let tempDay = baseDay
   let dayArray = []
   let flag = true
@@ -72,10 +52,7 @@ const getDaysOfTheMonth = (baseDay: any, adjacentMonth: number) => {
     // 12月を表示する場合、ここは11
     let tempMonth = tempDay.month()
     if (tempDay.day() === 0) {
-      if (tempMonth === adjacentMonth + 1) {
-        flag = false
-        break
-      } else if (adjacentMonth === 11 && tempMonth === 0) {
+      if (tempMonth === month + 1 || (tempMonth == 0 && month === 11)) {
         flag = false
         break
       }
