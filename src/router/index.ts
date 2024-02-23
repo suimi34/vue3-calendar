@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory('/'),
@@ -22,6 +21,11 @@ const router = createRouter({
       name: 'calendar',
       component: () => import('../components/Calendar.vue')
     },
+    {
+      path: '/notes',
+      name: 'notes',
+      component: () => import('../components/Notes.vue')
+    }
   ]
 })
 
