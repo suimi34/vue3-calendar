@@ -1,6 +1,7 @@
 <script setup lang="ts">
-
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import NewTag from './NewTag.vue'
+import Tags from './Tags.vue'
 
 type Note = {
   name: String
@@ -18,17 +19,17 @@ const newNote = ref<Note>({
   tags: []
 })
 
-const emit = defineEmits(['submitNewNote']);
+const emit = defineEmits(['submitNewNote'])
 
-const addTag = () => {
-  console.log('add Tag')
+const addTag = (newTag: Tag) => {
+  newNote.value.tags.push(newTag)
 }
 
 const handleSubmit = (e: any) => {
-  e.preventDefault();
-  const newNoteValue = newNote.value;
-  emit('submitNewNote', newNoteValue)
+  e.preventDefault()
 
+  const newNoteValue = newNote.value
+  emit('submitNewNote', newNoteValue)
   newNote.value = {
     name: '',
     url: '',
@@ -36,40 +37,23 @@ const handleSubmit = (e: any) => {
   }
 }
 
+const userNewTags = computed(() => {
+  return newNote.value.tags
+})
 </script>
 
 <template>
   <h2>Note追加</h2>
   <form>
     <input type="text" v-model="newNote.name" placeholder="noteの名前" />
-    <br>
+    <br />
     <input type="text" v-model="newNote.url" placeholder="noteのURL" />
-    <br>
-    <span>タグ</span>
-    <div class="add-tag-area">
-      <input type="text" placeholder="タグ" />
-      <span @click="addTag">+</span>
-    </div>
-    <br>
+    <br />
+    <Tags :tags="userNewTags" />
+    <NewTag @add-tag="addTag" />
+    <br />
     <button @click="handleSubmit">登録</button>
   </form>
 </template>
 
-<style scoped>
-  .add-tag-area {
-    display: flex;
-  }
-  .add-tag-area input {
-    width: 100px;
-  }
-  .add-tag-area span {
-    width: 20px;
-    height: 20px;
-    background-color: #000;
-    color: #fff;
-    text-align: center;
-    line-height: 20px;
-    cursor: pointer;
-    margin-left: 5px;
-  }
-  </style>
+<style scoped></style>

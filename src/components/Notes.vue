@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { ref } from 'vue'
 
 type Note = {
@@ -14,10 +13,9 @@ type Tag = {
 
 const props = defineProps({
   notes: Array
-});
+})
 
-const userNotes = ref<Note[]>(props.notes as Note[] || []);
-
+const userNotes = ref<Note[]>((props.notes as Note[]) || [])
 </script>
 
 <template>
