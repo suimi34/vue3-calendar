@@ -1,8 +1,6 @@
 <script setup lang="ts">
 
 import { ref } from 'vue'
-import NewNote from './NewNote.vue'
-import { v4 as uuid } from 'uuid';
 
 type Note = {
   name: String
@@ -14,46 +12,31 @@ type Tag = {
   name: String
 }
 
-const userId = localStorage.getItem('userId')
+const props = defineProps({
+  notes: Array
+});
 
-if (!userId) {
-  localStorage.setItem('userId', uuid())
-}
+const userNotes = ref<Note[]>(props.notes as Note[] || []);
 
-const notes = ref<Note[]>([])
 </script>
 
 <template>
-  <div>
-    <h1>Notes</h1>
-    <h2>Note一覧</h2>
-    <ul>
-      <li v-for="(note, key) in notes" :key="key">
-        <a href="note.url">{{ note.name }}</a>
-        <ul>
-          <li v-for="(tag, key) in note.tags" :key="key">{{ tag.name }}</li>
-        </ul>
-      </li>
-    </ul>
-    <NewNote />
-  </div>
+  <h2>Note一覧</h2>
+  <ul>
+    <li v-for="(note, key) in userNotes" :key="key">
+      <a class="anker-link" :href="`${note.url}`">{{ note.name }}</a>
+      <ul>
+        <li v-for="(tag, key) in note.tags" :key="key">{{ tag.name }}</li>
+      </ul>
+    </li>
+  </ul>
 </template>
 
 <style scoped>
-  .add-tag-area {
-    display: flex;
-  }
-  .add-tag-area input {
-    width: 100px;
-  }
-  .add-tag-area span {
-    width: 20px;
-    height: 20px;
-    background-color: #000;
-    color: #fff;
-    text-align: center;
-    line-height: 20px;
-    cursor: pointer;
-    margin-left: 5px;
-  }
-  </style>
+.anker-link {
+  text-decoration: none;
+  color: blue;
+  transition: 0.4s;
+  padding: 3px;
+}
+</style>

@@ -18,19 +18,22 @@ const newNote = ref<Note>({
   tags: []
 })
 
+const emit = defineEmits(['submitNewNote']);
+
 const addTag = () => {
   console.log('add Tag')
 }
 
 const handleSubmit = (e: any) => {
   e.preventDefault();
+  const newNoteValue = newNote.value;
+  emit('submitNewNote', newNoteValue)
 
-  const userId = localStorage.getItem('userId') || ''
-  const json = localStorage.getItem(userId) || '[]'
-
-  const notes: Note[] = JSON.parse(json);
-  notes.push(newNote.value)
-  localStorage.setItem(userId, JSON.stringify(notes))
+  newNote.value = {
+    name: '',
+    url: '',
+    tags: []
+  }
 }
 
 </script>
