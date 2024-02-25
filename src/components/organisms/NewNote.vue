@@ -41,26 +41,25 @@ const isShow = computed(() => {
 </script>
 
 <template>
-  <Teleport
-    to="body"
-    v-if="isShow"
-  >
-    <div class="new-note-box">
-    <h2>Note追加</h2>
-    <form>
-      <input type="text" v-model="newNote.name" placeholder="noteの名前" />
-      <br />
-      <input type="text" v-model="newNote.url" placeholder="noteのURL" />
-      <br />
-      <Tags :tags="userNewTags" />
-      <NewTag @add-tag="addTag" />
-      <br />
-      <div>
-        <button class="button-primary" @click="handleSubmit">登録</button>
-        <button class="button-cancel">やめる</button>
+  <Teleport to="body">
+    <Transition name="fade">
+      <div class="new-note-box" v-if="isShow">
+        <h2>Note追加</h2>
+        <form>
+          <input type="text" v-model="newNote.name" placeholder="noteの名前" />
+          <br />
+          <input type="text" v-model="newNote.url" placeholder="noteのURL" />
+          <br />
+          <Tags :tags="userNewTags" />
+          <NewTag @add-tag="addTag" />
+          <br />
+          <div>
+            <button class="button-primary" @click="handleSubmit">登録</button>
+            <button class="button-cancel">やめる</button>
+          </div>
+        </form>
       </div>
-    </form>
-    </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -71,6 +70,15 @@ const isShow = computed(() => {
 }
 
 @media (max-width: 1023px) {
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s ease;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
   .new-note-box {
     position: fixed;
     top: 30%;

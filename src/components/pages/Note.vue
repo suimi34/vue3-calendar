@@ -75,7 +75,7 @@ function handleOpenNewNote() {
   }
   button {
     margin: 10px;
-    background-color:#007bff;
+    background-color: #007bff;
     border-radius: 5px;
     border: 1px solid #007bff;
     color: #fff;
