@@ -34,17 +34,24 @@ const userNewTags = computed(() => {
 </script>
 
 <template>
-  <h2>Note追加</h2>
-  <form>
-    <input type="text" v-model="newNote.name" placeholder="noteの名前" />
-    <br />
-    <input type="text" v-model="newNote.url" placeholder="noteのURL" />
-    <br />
-    <Tags :tags="userNewTags" />
-    <NewTag @add-tag="addTag" />
-    <br />
-    <button @click="handleSubmit">登録</button>
-  </form>
+  <div class="new-note-box">
+    <h2>Note追加</h2>
+    <form>
+      <input type="text" v-model="newNote.name" placeholder="noteの名前" />
+      <br />
+      <input type="text" v-model="newNote.url" placeholder="noteのURL" />
+      <br />
+      <Tags :tags="userNewTags" />
+      <NewTag @add-tag="addTag" />
+      <br />
+      <button @click="handleSubmit">登録</button>
+    </form>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.new-note-box {
+  border: 1px solid #000;
+  padding: 10px;
+}
+</style>

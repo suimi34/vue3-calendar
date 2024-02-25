@@ -32,11 +32,24 @@ function handleSubmit(newNote: Note) {
 </script>
 
 <template>
-  <div>
-    <h1>Notes</h1>
-    <Notes :notes="userNotes" />
-    <NewNote @submit-new-note="handleSubmit" />
+  <h1>Notes</h1>
+  <div class="note-main">
+    <section>
+      <Notes :notes="userNotes" />
+    </section>
+    <aside class="new-note">
+      <NewNote @submit-new-note="handleSubmit" />
+    </aside>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@media (min-width: 1024px) {
+  .note-main {
+    display: flex;
+  }
+  .new-note {
+    margin-left: 20px;
+  }
+}
+</style>
