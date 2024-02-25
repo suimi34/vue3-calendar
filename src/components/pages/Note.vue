@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import Notes from '../Notes.vue'
 import { v4 as uuid } from 'uuid'
+import Notes from '../Notes.vue'
 import NewNote from '../NewNote.vue'
 
 type Note = {
