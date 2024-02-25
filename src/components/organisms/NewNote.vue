@@ -10,6 +10,7 @@ const newNote = ref<Note>({
   tags: []
 })
 
+const isPC = ref<boolean>(window.innerWidth >= 1024)
 const emit = defineEmits(['submitNewNote'])
 const props = defineProps({
   isShow: Boolean
@@ -35,15 +36,28 @@ const userNewTags = computed(() => {
   return newNote.value.tags
 })
 
-const isShow = computed(() => {
+const isShowModal = computed(() => {
   return props.isShow
 })
 </script>
 
 <template>
-  <Teleport to="body">
+  <div class="new-note-box" v-if="isPC">
+    <h2>Note追加</h2>
+    <form>
+      <input type="text" v-model="newNote.name" placeholder="noteの名前" />
+      <br />
+      <input type="text" v-model="newNote.url" placeholder="noteのURL" />
+      <br />
+      <Tags :tags="userNewTags" />
+      <NewTag @add-tag="addTag" />
+      <br />
+      <button class="button-primary" @click="handleSubmit">登録</button>
+    </form>
+  </div>
+  <Teleport to="body" v-else>
     <Transition name="fade">
-      <div class="new-note-box" v-if="isShow">
+      <div class="new-note-box" v-if="isShowModal">
         <h2>Note追加</h2>
         <form>
           <input type="text" v-model="newNote.name" placeholder="noteの名前" />
@@ -69,6 +83,19 @@ const isShow = computed(() => {
   padding: 10px;
 }
 
+button.button-primary {
+  background-color: #007bff;
+  border-radius: 5px;
+  border: 1px solid #007bff;
+  color: #fff;
+}
+button.button-cancel {
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #343a40;
+  color: #343a40;
+}
+
 @media (max-width: 1023px) {
   .fade-enter-active,
   .fade-leave-active {
@@ -87,19 +114,6 @@ const isShow = computed(() => {
     background-color: #fff;
     border-radius: 5px;
     width: 80%;
-  }
-
-  button.button-primary {
-    background-color: #007bff;
-    border-radius: 5px;
-    border: 1px solid #007bff;
-    color: #fff;
-  }
-  button.button-cancel {
-    background-color: #fff;
-    border-radius: 5px;
-    border: 1px solid #343a40;
-    color: #343a40;
   }
 }
 </style>
