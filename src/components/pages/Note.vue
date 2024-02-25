@@ -47,9 +47,19 @@ function handleSubmit(newNote: Note) {
 @media (min-width: 1024px) {
   .note-main {
     display: flex;
+    max-width: 100%;
   }
   .new-note {
     margin-left: 20px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .note-main {
+    flex-direction: column;
+  }
+  .new-note {
+    margin-top: 20px;
   }
 }
 </style>

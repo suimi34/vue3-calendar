@@ -91,4 +91,20 @@ li {
   transition: 0.4s;
   padding: 3px;
 }
+
+@media (max-width: 1023px) {
+  table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  th,
+  td {
+    display: block;
+    width: 100%;
+    overflow-wrap: break-word;
+  }
+  ul {
+    text-align: left;
+  }
+}
 </style>
