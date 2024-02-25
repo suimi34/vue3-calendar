@@ -11,6 +11,9 @@ const newNote = ref<Note>({
 })
 
 const emit = defineEmits(['submitNewNote'])
+const props = defineProps({
+  isShow: Boolean
+})
 
 const addTag = (newTag: Tag) => {
   newNote.value.tags.push(newTag)
@@ -31,10 +34,18 @@ const handleSubmit = (e: any) => {
 const userNewTags = computed(() => {
   return newNote.value.tags
 })
+
+const isShow = computed(() => {
+  return props.isShow
+})
 </script>
 
 <template>
-  <div class="new-note-box">
+  <Teleport
+    to="body"
+    v-if="isShow"
+  >
+    <div class="new-note-box">
     <h2>Note追加</h2>
     <form>
       <input type="text" v-model="newNote.name" placeholder="noteの名前" />
@@ -44,14 +55,43 @@ const userNewTags = computed(() => {
       <Tags :tags="userNewTags" />
       <NewTag @add-tag="addTag" />
       <br />
-      <button @click="handleSubmit">登録</button>
+      <div>
+        <button class="button-primary" @click="handleSubmit">登録</button>
+        <button class="button-cancel">やめる</button>
+      </div>
     </form>
-  </div>
+    </div>
+  </Teleport>
 </template>
 
 <style scoped>
 .new-note-box {
   border: 1px solid #000;
   padding: 10px;
+}
+
+@media (max-width: 1023px) {
+  .new-note-box {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 5px;
+    width: 80%;
+  }
+
+  button.button-primary {
+    background-color: #007bff;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    color: #fff;
+  }
+  button.button-cancel {
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #343a40;
+    color: #343a40;
+  }
 }
 </style>

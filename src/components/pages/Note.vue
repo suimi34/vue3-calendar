@@ -21,6 +21,7 @@ if (!userId) {
 
 const json = localStorage.getItem('notes') || '[]'
 const notes = ref<Note[]>(JSON.parse(json))
+const isShow = ref(false)
 const userNotes = computed(() => {
   return notes.value
 })
@@ -29,22 +30,35 @@ function handleSubmit(newNote: Note) {
   notes.value.push(newNote)
   localStorage.setItem('notes', JSON.stringify(notes.value))
 }
+
+function handleOpenNewNote() {
+  isShow.value = true
+}
 </script>
 
 <template>
-  <h1>Notes</h1>
+  <header>
+    <h1>Notes</h1>
+    <button @click="handleOpenNewNote">追加</button>
+  </header>
   <div class="note-main">
     <section>
       <Notes :notes="userNotes" />
     </section>
     <aside class="new-note">
-      <NewNote @submit-new-note="handleSubmit" />
+      <NewNote @submit-new-note="handleSubmit" :isShow="isShow" />
     </aside>
   </div>
 </template>
 
 <style scoped>
 @media (min-width: 1024px) {
+  header {
+    display: block;
+  }
+  header button {
+    display: none;
+  }
   .note-main {
     display: flex;
     max-width: 100%;
@@ -55,6 +69,17 @@ function handleSubmit(newNote: Note) {
 }
 
 @media (max-width: 1023px) {
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+  button {
+    margin: 10px;
+    background-color:#007bff;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    color: #fff;
+  }
   .note-main {
     flex-direction: column;
   }
