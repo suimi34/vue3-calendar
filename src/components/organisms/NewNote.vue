@@ -2,16 +2,7 @@
 import { computed, ref } from 'vue'
 import NewTag from './NewTag.vue'
 import Tags from './Tags.vue'
-
-type Note = {
-  name: String
-  url: String
-  tags: Tag[]
-}
-
-type Tag = {
-  name: String
-}
+import type { Note, Tag } from '../../types'
 
 const newNote = ref<Note>({
   name: '',
