@@ -6,7 +6,7 @@ import Button from '../components/organisms/Button.vue'
 const isShowDetail = ref(false)
 
 const toggleButton = () => {
-  console.log('clicked')
+  console.log('clicked', !isShowDetail.value)
   isShowDetail.value = !isShowDetail.value
 }
 
@@ -14,8 +14,8 @@ const toggleButton = () => {
 
 <template>
   <div>
-    <div>
-      <input type="text" />
+    <div style="width: 100px;">
+      <input type="text" style="width: 100%;" />
     </div>
     <div
       v-show="isShowDetail"
@@ -52,8 +52,9 @@ const toggleButton = () => {
 
 
 .detail {
-  background-color: red;
+  background-color: pink;
   height: 200px;
+  width: 100px;
 }
 
 .show-enter-from {
@@ -62,7 +63,7 @@ const toggleButton = () => {
 }
 
 .show-enter-active {
-  transition: all 1s linear;
+  transition: all .5s linear;
 }
 
 .show-enter-to {
@@ -75,11 +76,15 @@ const toggleButton = () => {
 }
 
 .normal-enter-active {
-  transition: all 1s linear;
+  transition: all .5s linear;
 }
 
 .normal-enter-to {
   transform: translateY(0);
+}
+
+.normal-leave-from {
+  display: none;
 }
 
 </style>
